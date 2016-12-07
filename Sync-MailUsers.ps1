@@ -20,7 +20,7 @@ foreach ($user in $SourceMBXs) {
 	Connect-MsolService -Credential $SourceCred
 
 	#Generate the new target UPN
-	$UPN = [string]$user.Alias + "@spscom.com"
+	$UPN = [string]$user.Alias + "@fabrikam.com"
 
 	#Create the new Mail User and update the MSOL user if it doesn't already exist
 	if ([bool](Get-targetMailUser $UPN -ErrorAction SilentlyContinue) -eq $false) {

@@ -1,3 +1,9 @@
+#Sync-MailUsers.ps1
+#Jeff Guillet, MVP | MCSM
+
+#Edit this line to use the target tenant's domain
+$TargetDomain = "@fabrikam.com"
+
 #The following two lines will create encrypted XML files that contain the source and target tenant admin credentials used throughout the script
 #New-Object System.Management.Automation.PSCredential("admin@contoso.com", (ConvertTo-SecureString -AsPlainText -Force "P@ssword")) | Export-CliXml "C:\Temp\SourceCredential.xml"
 #New-Object System.Management.Automation.PSCredential("admin@fabrikam.com", (ConvertTo-SecureString -AsPlainText -Force "P@ssword")) | Export-CliXml "C:\Temp\TargetCredential.xml"
@@ -20,7 +26,7 @@ foreach ($user in $SourceMBXs) {
 	Connect-MsolService -Credential $SourceCred
 
 	#Generate the new target UPN
-	$UPN = [string]$user.Alias + "@fabrikam.com"
+	$UPN = [string]$user.Alias + $TargetDomain
 
 	#Create the new Mail User and update the MSOL user if it doesn't already exist
 	if ([bool](Get-targetMailUser $UPN -ErrorAction SilentlyContinue) -eq $false) {
